@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins-slave
+  labels: 
+    name: jenkins-slave
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: jenkins-slave
+      labels: 
+        name: jenkins-slave
+    spec:
+      containers:
+        - name: jenikns-slave
+          image: sysbind/jenkins-swarm-slave:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: ssh-keys
+              readOnly: true
+              mountPath: /home/jenkins-slave/.ssh
+          env:
+          command:
+            - /usr/local/bin/jenkins-slave.sh
+            - -master
+            - http://jenkins:$(JENKINS_SERVICE_PORT_HTTP)
+            - -tunnel
+            - jenkins:$(JENKINS_SERVICE_PORT_SLAVE)
+            - -username
+            - jenkins
+            - -password
+            - jenkins
+            - -executors
+            - "1"
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "netstat -tan | grep ESTABLISHED"
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+      volumes: 
+        - name: ssh-keys
+          secret: 
+            secretName: slaves-ssh-key  
