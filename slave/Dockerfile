@@ -6,8 +6,13 @@ RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list \
     && wget https://www.dotdeb.org/dotdeb.gpg \
     && apt-key add dotdeb.gpg \
     && apt-get update -y \
-    && apt-get -y --no-install-recommends install php7.0 php7.0-mysql php7.0-curl php7.0-mcrypt php7.0-cli php7.0-dev php-pear libsasl2-dev\
-    && apt-get -y install postgresql \
+    && apt-get -y --no-install-recommends install php7.0 php7.0-mysql php7.0-curl php7.0-pgsql php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-xml php7.0-iconv php7.0-zip php7.0-cli php7.0-gd php7.0-dev php-pear libsasl2-dev\
+    && apt-get -y install postgresql locales \
+    && locale-gen en_AU.UTF-8 \
+    && echo "en_AU.UTF-8 UTF-8"> /etc/locale.gen \
+    && echo "LC_TIME=\"en_AU.UTF-8\"" >> /etc/default/locale \
+    && locale-gen \
+    && update-locale \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
