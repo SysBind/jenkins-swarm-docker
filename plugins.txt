@@ -1,1 +1,5 @@
 swarm:latest
+xvfb:latest
+ws-cleanup:latest
+scm-api:latest
+workflow-aggregator:latest

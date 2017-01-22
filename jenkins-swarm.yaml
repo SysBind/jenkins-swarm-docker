@@ -14,7 +14,8 @@ spec:
     spec: 
       containers: 
         - name: jenkins
-          image: sysbind/jenkins-master:latest          
+          image: sysbind/jenkins-master:2.41
+          imagePullPolicy: Always         
           ports: 
             - containerPort: 8080
             - containerPort: 50000

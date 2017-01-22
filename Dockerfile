@@ -1,4 +1,4 @@
-FROM jenkinsci/jenkins:latest
+FROM jenkinsci/jenkins:2.41
 
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt

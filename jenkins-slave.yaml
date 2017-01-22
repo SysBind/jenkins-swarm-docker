@@ -5,7 +5,7 @@ metadata:
   labels: 
     name: jenkins-slave
 spec:
-  replicas: 2
+  replicas: 6
   template:
     metadata:
       name: jenkins-slave
