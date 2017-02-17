@@ -1,5 +1,7 @@
 FROM csanchez/jenkins-swarm-slave:latest
 
+ENV GIT_HUB_TOKEN needtoentertoken
+
 USER root
 RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list \
     && echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list \
@@ -20,3 +22,4 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --install-dir=/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
 USER jenkins-slave
+RUN composer config -g github-oauth.github.com $GIT_HUB_TOKEN
